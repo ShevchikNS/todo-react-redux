@@ -12,7 +12,6 @@ const TodoItemComponent = ({item, onDelete, onEdit}) => {
     const enableEditMode = () => {
         setIsEditMode(true)
     }
-
     const disableEditMode = () => {
         setIsEditMode(false)
         onEdit(editedTodoName)
