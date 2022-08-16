@@ -17,7 +17,7 @@ export const todoReducer = (state = defaultState, action) => {
         case EDIT_TODO:
             return {...state, todos: state.todos.map((todo, index,) => {
                     if(index === action.payload) {
-                        return {
+                        return  {
                             id: todo.id,
                             text: action.newTodo,
                         }

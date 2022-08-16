@@ -4,7 +4,7 @@ import {Button, TextField} from "@mui/material";
 
 const TodoItemComponent = ({item, onDelete, onEdit}) => {
     const [isEditMode, setIsEditMode] = useState(false)
-    const [editedTodoName, setEditedTodoName] = useState('')
+    const [editedTodoName, setEditedTodoName] = useState(item)
 
     const changeTodoName = (e) => {
         setEditedTodoName(e.target.value)
@@ -44,13 +44,18 @@ const TodoItemComponent = ({item, onDelete, onEdit}) => {
                             Save
                         </Button>
                         :
-                        <Button className="EditButton" variant="outlined" onClick={enableEditMode}>
-                            Edit
-                        </Button>
+                        <>
+                            <Button className="EditButton" variant="outlined" onClick={enableEditMode}>
+                                Edit
+                            </Button>
+                            <Button className="DeleteButton" id="DeleteButton" variant="contained" onClick={onDelete}>
+                                Delete
+                            </Button>
+                        </>
+
+
                 }
-                <Button className="DeleteButton" id="DeleteButton" variant="contained" onClick={onDelete}>
-                    Delete
-                </Button>
+
             </div>
 
         </div>

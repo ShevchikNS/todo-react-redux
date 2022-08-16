@@ -29,7 +29,7 @@ const InputTodoComponent = () => {
         localStorage.setItem('todoItems', JSON.stringify(store.getState().todos.todos))
     }
     const EditTodo = (indexToEdit, editTodo) => {
-        dispatch(editTodoAction(indexToEdit,editTodo))
+        dispatch(editTodoAction(indexToEdit, editTodo))
         saveInLocalStorage()
     }
     const removeTodoItem = (todoItem) => {
@@ -64,10 +64,10 @@ const InputTodoComponent = () => {
                                 <TodoItem
                                     onDelete={() => removeTodoItem(todoItem)}
                                     onEdit={(editTodo) => {
-                                        EditTodo(index,editTodo)
+                                        EditTodo(index, editTodo)
                                     }}
-                                    item = {todoItem.text}
-                                    key = {index}>
+                                    item={todoItem.text}
+                                    key={index}>
                                 </TodoItem>
                             )
                         }
