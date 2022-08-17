@@ -1,6 +1,19 @@
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 768px) {
     section.dashboard .TodoHeader {
-        display: flex;
-        background-color: blue;
+        justify-content: normal;
     }
+    .MuiInputBase-root {
+        height: 80px;
+        width: 213px;
+    }
+
+    .MuiFormLabel-root{
+        margin-top: 12px;
+    }
+    .DeleteEditButton {
+        margin-left: 226px;
+        display: flex;
+    }
+
 }
+

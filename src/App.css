@@ -10,7 +10,7 @@
 }
 .todoItem{
     display: block;
-    width: 79%;
+    width: 86%;
 }
 .DeleteButton{
     width: 30%;
@@ -22,10 +22,8 @@
     margin-left: 13px;
 }
 .EditButton{
-    margin-right: 10px;
     width: 30%;
 }
 .DeleteEditButton{
     display: flex;
-    width: 20%;
 }
