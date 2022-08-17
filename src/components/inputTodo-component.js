@@ -15,7 +15,11 @@ const InputTodoComponent = () => {
     const changeTodoName = (e) => {
         setNewTodo(e.target.value)
     }
-
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            addTodoItem(newTodo)
+        }
+    }
     const addTodoItem = (newTodo) => {
         const todo = {
             id: Date.now(),
@@ -40,14 +44,15 @@ const InputTodoComponent = () => {
 
     return (
         <div>
-            <section className="dashboard">
                 <div className="TodoHeader">
                     <TextField
                         id="outlined-basic"
                         label="Todo"
                         variant="outlined"
                         value={newTodo}
+                        size = 'medium'
                         onChange={changeTodoName}
+                        onKeyPress={(e) => handleKeyPress(e)}
                     />
                     <Button
                         variant="outlined"
@@ -58,7 +63,6 @@ const InputTodoComponent = () => {
                         ADD
                     </Button>
                 </div>
-            </section>
             {
                 todoItems.length > 0 ?
                     <div>

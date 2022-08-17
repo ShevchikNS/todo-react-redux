@@ -45,7 +45,7 @@ const TodoItemComponent = ({item, onDelete, onEdit}) => {
                         </Button>
                         :
                         <>
-                            <Button className="EditButton" variant="outlined" onClick={enableEditMode}>
+                            <Button className="EditButton" id = "EditButton" variant="outlined" onClick={enableEditMode}>
                                 Edit
                             </Button>
                             <Button className="DeleteButton" id="DeleteButton" variant="contained" onClick={onDelete}>
