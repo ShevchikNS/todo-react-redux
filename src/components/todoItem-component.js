@@ -16,6 +16,11 @@ const TodoItemComponent = ({item, onDelete, onEdit}) => {
         setIsEditMode(false)
         onEdit(editedTodoName)
     }
+    const handleKeyPressEdit= (event) => {
+        if(event.key === 'Enter'){
+            disableEditMode()
+        }
+    }
     return (
         <div className="todoItems">
             {
@@ -25,14 +30,17 @@ const TodoItemComponent = ({item, onDelete, onEdit}) => {
                         className = "todoItem"
                         id="outlined-required"
                         label="Edit"
+                        multiline
                         value={editedTodoName}
                         onChange={changeTodoName}
+                        onKeyPress={(e) => handleKeyPressEdit(e)}
                     />
                     :
                     <TextField
                         disabled
                         className = "todoItem"
                         id="outlined-disabled"
+                        multiline
                         value= {item}
                     />
 

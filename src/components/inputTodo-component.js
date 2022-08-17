@@ -15,7 +15,7 @@ const InputTodoComponent = () => {
     const changeTodoName = (e) => {
         setNewTodo(e.target.value)
     }
-    const handleKeyPress = (event) => {
+    const handleKeyPressAdd = (event) => {
         if(event.key === 'Enter'){
             addTodoItem(newTodo)
         }
@@ -50,9 +50,10 @@ const InputTodoComponent = () => {
                         label="Todo"
                         variant="outlined"
                         value={newTodo}
+                        multiline
                         size = 'medium'
                         onChange={changeTodoName}
-                        onKeyPress={(e) => handleKeyPress(e)}
+                        onKeyPress={(e) => handleKeyPressAdd(e)}
                     />
                     <Button
                         variant="outlined"
