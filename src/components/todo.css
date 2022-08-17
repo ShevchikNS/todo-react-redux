@@ -4,7 +4,7 @@
         display: flex;
         justify-content: normal;
     }
-    div .MuiFormControl-root.MuiTextField-root.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    div .MuiFormControl-root.MuiTextField-root{
         margin-right: 10px;
         width: 100%;
     }
@@ -12,7 +12,7 @@
         margin-right: 10px;
         width: 100%;
     }
-    .MuiButtonBase-root.css-sghohy-MuiButtonBase-root-MuiButton-root{
+    .MuiButtonBase-root.MuiTextField-root{
         width: 70px;
     }
     .todoItems{
