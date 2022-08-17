@@ -15,6 +15,9 @@
     .MuiButtonBase-root.MuiTextField-root{
         width: 70px;
     }
+    button#DeleteButton{
+        width: 65px;
+    }
     .todoItems{
         display: flex;
         justify-content: space-between;
