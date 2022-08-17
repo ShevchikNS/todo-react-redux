@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import "./todo.css"
 import {useDispatch, useSelector} from "react-redux";
 import {addTodoAction, editTodoAction, removeTodoAction} from "../store/todoReducer";
 import {Button, TextField} from "@mui/material";
@@ -39,23 +40,25 @@ const InputTodoComponent = () => {
 
     return (
         <div>
-            <div className="TodoHeader" >
-                <TextField
-                    id="outlined-basic"
-                    label="Todo"
-                    variant="outlined"
-                    value={newTodo}
-                    onChange={changeTodoName}
-                />
-                <Button
-                    variant="outlined"
-                    id="AddButton"
-                    onClick={() => {
-                        addTodoItem(newTodo)
-                    }}>
-                    ADD
-                </Button>
-            </div>
+            <section className="dashboard">
+                <div className="TodoHeader">
+                    <TextField
+                        id="outlined-basic"
+                        label="Todo"
+                        variant="outlined"
+                        value={newTodo}
+                        onChange={changeTodoName}
+                    />
+                    <Button
+                        variant="outlined"
+                        id="AddButton"
+                        onClick={() => {
+                            addTodoItem(newTodo)
+                        }}>
+                        ADD
+                    </Button>
+                </div>
+            </section>
             {
                 todoItems.length > 0 ?
                     <div>
