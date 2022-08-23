@@ -5,6 +5,9 @@ import {addTodoAction, editTodoAction, removeTodoAction} from "../store/todoRedu
 import {Button, TextField} from "@mui/material";
 import TodoItem from "./todoItem-component";
 import {store} from "../store";
+import Navbar from "./navbar";
+import {collection, addDoc} from "firebase/firestore"
+import {db} from "../firebase";
 
 const InputTodoComponent = () => {
 
@@ -15,16 +18,17 @@ const InputTodoComponent = () => {
     const changeTodoName = (e) => {
         setNewTodo(e.target.value)
     }
-    const handleKeyPressAdd = (event) => {
-        if(event.key === 'Enter'){
-            addTodoItem(newTodo)
+    const handleKeyPressAdd =  async (event) => {
+        if (event.key === 'Enter') {
+            await addTodoItem(newTodo)
         }
     }
-    const addTodoItem = (newTodo) => {
+    const addTodoItem =  async (newTodo) => {
         const todo = {
             id: Date.now(),
             text: newTodo
         }
+        await addDoc(collection(db, "todos"), todo)
         dispatch(addTodoAction(todo))
         setNewTodo('')
         saveInLocalStorage()
@@ -44,26 +48,27 @@ const InputTodoComponent = () => {
 
     return (
         <div>
-                <div className="TodoHeader">
-                    <TextField
-                        id="outlined-basic"
-                        label="Todo"
-                        variant="outlined"
-                        value={newTodo}
-                        multiline
-                        size = 'medium'
-                        onChange={changeTodoName}
-                        onKeyPress={(e) => handleKeyPressAdd(e)}
-                    />
-                    <Button
-                        variant="outlined"
-                        id="AddButton"
-                        onClick={() => {
-                            addTodoItem(newTodo)
-                        }}>
-                        ADD
-                    </Button>
-                </div>
+            <Navbar/>
+            <div className="TodoHeader">
+                <TextField
+                    id="outlined-basic"
+                    label="Todo"
+                    variant="outlined"
+                    value={newTodo}
+                    multiline
+                    size='medium'
+                    onChange={changeTodoName}
+                    onKeyPress={(e) => handleKeyPressAdd(e)}
+                />
+                <Button
+                    variant="outlined"
+                    id="AddButton"
+                    onClick={() => {
+                        addTodoItem(newTodo)
+                    }}>
+                    ADD
+                </Button>
+            </div>
             {
                 todoItems.length > 0 ?
                     <div>

@@ -1,14 +1,12 @@
 import './App.css';
-import InputTodoComponent from "./components/inputTodo-component";
-
+import {BrowserRouter} from "react-router-dom";
+import AppRouter from "./components/AppRouter";
 
 function App() {
-
-
     return (
-        <div className="App">
-            <InputTodoComponent/>
-        </div>
+        <BrowserRouter>
+            <AppRouter/>
+        </BrowserRouter>
     );
 }
 
