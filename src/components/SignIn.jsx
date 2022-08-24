@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {changeAuthAction} from "../store/authReducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 // import {BrowserRouter as Router, Link} from 'react-router-dom';
 
@@ -21,27 +21,28 @@ import {useNavigate} from "react-router-dom";
 const theme = createTheme();
 
 export default function SignIn() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch()
+    // const currentUser = useSelector(state => state.currentUser.user)
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
-    const changeAuthState = () => {
+    const checkAuth = () => {
         dispatch(changeAuthAction(true))
         let path = `/`;
         navigate(path);
     }
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const data =  new FormData(event.currentTarget);
+        const authUser = {
+            email: data.get('email'),
+            password: data.get('password'),
+        }
 
+        await checkAuth()
+    };
 
     return (
         <ThemeProvider theme={theme}>
-            <form action="/">
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <Box
@@ -84,10 +85,11 @@ export default function SignIn() {
                                 label="Remember me"
                             />
                             <Button
+                                type="submit"
+
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                onClick={changeAuthState}
                             >
                                 Sign In
                             </Button>
@@ -106,7 +108,6 @@ export default function SignIn() {
                         </Box>
                     </Box>
                 </Container>
-            </form>
         </ThemeProvider>
     );
 }
