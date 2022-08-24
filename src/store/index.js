@@ -3,10 +3,11 @@ import {todoReducer} from "./todoReducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import {authReducer} from "./authReducer";
-import {useDispatch} from "react-redux";
+import {userReducer} from "./userReducer";
 
 const rootReducer = combineReducers({
     todos: todoReducer,
-    auth: authReducer
+    auth: authReducer,
+    currentUser: userReducer
 })
 export const store  = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
