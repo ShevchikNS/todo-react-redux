@@ -39,7 +39,7 @@ const InputTodoComponent = () => {
     }
     const EditTodo = (indexToEdit, editTodo) => {
         dispatch(editTodoAction(indexToEdit, editTodo))
-        saveInLocalStorage()
+       saveInLocalStorage()
     }
     const removeTodoItem = (todoItem) => {
         dispatch(removeTodoAction(todoItem.id))
@@ -63,9 +63,7 @@ const InputTodoComponent = () => {
                 <Button
                     variant="outlined"
                     id="AddButton"
-                    onClick={() => {
-                        addTodoItem(newTodo)
-                    }}>
+                    onClick={async () => { await addTodoItem(newTodo)}}>
                     ADD
                 </Button>
             </div>

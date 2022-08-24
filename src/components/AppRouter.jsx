@@ -8,7 +8,6 @@ import {changeAuthAction} from "../store/authReducer";
 
 const AppRouter = () => {
     const isAuth = useSelector(state => state.auth.authState)
-    console.log(isAuth)
     return (
         isAuth ?
                 <Routes>
@@ -17,7 +16,6 @@ const AppRouter = () => {
                     )}
                     <Route path="*" element={ <Navigate to="/" /> } />
                 </Routes>
-
                 :
                 <Routes>
                     {publicRoutes.map(route =>
