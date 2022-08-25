@@ -28,6 +28,7 @@ const InputTodoComponent = () => {
             id: Date.now(),
             text: newTodo
         }
+
         // await addDoc(collection(db, "todos"), todo)
         dispatch(addTodoAction(todo))
         setNewTodo('')
