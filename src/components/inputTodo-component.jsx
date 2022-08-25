@@ -6,8 +6,8 @@ import {Button, TextField} from "@mui/material";
 import TodoItem from "./todoItem-component";
 import {store} from "../store";
 import Navbar from "./navbar";
-import {collection, addDoc} from "firebase/firestore"
-import {db} from "../firebase";
+// import {collection, addDoc} from "firebase/firestore"
+// import {db} from "../firebase";
 
 const InputTodoComponent = () => {
 
