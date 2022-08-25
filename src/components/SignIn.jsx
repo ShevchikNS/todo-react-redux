@@ -42,13 +42,20 @@ export default function SignIn() {
             password: data.get('password'),
         }
         const usersFromStorage = JSON.parse(localStorage.getItem('UserList'))
-        const currentUser = usersFromStorage.filter(users => users.email === authUser.email && users.password === authUser.password)
-        if (currentUser.length === 0){
-            setOpen(true)
+        if (usersFromStorage !== null)
+        {
+            const currentUser = usersFromStorage.filter(users => users.email === authUser.email && users.password === authUser.password)
+            if (currentUser.length === 0){
+                setOpen(true)
+            } else {
+                dispatch(setCurrentUserAction(currentUser[0]))
+                checkAuth()
+            }
         } else {
-            dispatch(setCurrentUserAction(currentUser[0]))
-             checkAuth()
+            setOpen(true)
+
         }
+
     };
 
     return (
