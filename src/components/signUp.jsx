@@ -3,22 +3,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import CloseIcon from '@mui/icons-material/Close';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {useDispatch} from "react-redux";
-import {Alert, Collapse} from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import {getCurrentUserAction} from "../store/userReducer";
+import {setCurrentUserAction} from "../store/userReducer";
 import {changeAuthAction} from "../store/authReducer";
 import {useNavigate} from "react-router-dom";
+import AlertComponent from "./Alert-component";
 
 const theme = createTheme();
 
@@ -56,7 +52,7 @@ export default function SignUp() {
                 newUser.id = 0;
                 localStorage.setItem('UserList', JSON.stringify([newUser]))
             }
-            dispatch(getCurrentUserAction(newUser))
+            dispatch(setCurrentUserAction(newUser))
             await checkAuth()
         }
     };
@@ -79,26 +75,7 @@ export default function SignUp() {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Collapse in={open}>
-                        <Alert
-                            severity="error"
-                            action={
-                                <IconButton
-                                    aria-label="close"
-                                    color="inherit"
-                                    size="small"
-                                    onClick={() => {
-                                        setOpen(false);
-                                    }}
-                                >
-                                    <CloseIcon fontSize="inherit"/>
-                                </IconButton>
-                            }
-                            sx={{mb: 2}}
-                        >
-                            Please fill in the fields
-                        </Alert>
-                    </Collapse>
+                    <AlertComponent open ={open} text = "Please fill in the fields" setOpen={() => setOpen(false)} />
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
@@ -141,12 +118,6 @@ export default function SignUp() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary"/>}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
                                 />
                             </Grid>
                         </Grid>

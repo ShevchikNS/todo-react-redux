@@ -10,7 +10,6 @@ import {useSelector} from "react-redux";
 
 export default function Navbar() {
     const currentUser = useSelector(state => state.currentUser.user)
-    console.log(currentUser)
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">

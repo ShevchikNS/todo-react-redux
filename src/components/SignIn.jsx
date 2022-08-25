@@ -13,8 +13,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {changeAuthAction} from "../store/authReducer";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import AlertComponent from "./Alert-component";
+import {setCurrentUserAction} from "../store/userReducer";
 // import {BrowserRouter as Router, Link} from 'react-router-dom';
 
 
@@ -23,6 +26,7 @@ const theme = createTheme();
 export default function SignIn() {
     const navigate = useNavigate();
     const dispatch = useDispatch()
+    const [open, setOpen] = useState(false);
     // const currentUser = useSelector(state => state.currentUser.user)
 
     const checkAuth = () => {
@@ -30,15 +34,21 @@ export default function SignIn() {
         let path = `/`;
         navigate(path);
     }
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         const data =  new FormData(event.currentTarget);
         const authUser = {
             email: data.get('email'),
             password: data.get('password'),
         }
-
-        await checkAuth()
+        const usersFromStorage = JSON.parse(localStorage.getItem('UserList'))
+        const currentUser = usersFromStorage.filter(users => users.email === authUser.email && users.password === authUser.password)
+        if (currentUser.length === 0){
+            setOpen(true)
+        } else {
+            dispatch(setCurrentUserAction(currentUser[0]))
+             checkAuth()
+        }
     };
 
     return (
@@ -59,6 +69,7 @@ export default function SignIn() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
+                        <AlertComponent open ={open} text = "Account not found" setOpen={() => setOpen(false)}/>
                         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 } }>
                             <TextField
                                 margin="normal"

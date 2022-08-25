@@ -9,7 +9,6 @@ const currentUser = {
 const GET_CURRENT_USER = "GET_CURRENT_USER"
 
 export const userReducer = (state = currentUser, action) => {
-    console.log(action.payload)
     switch (action.type) {
         case GET_CURRENT_USER:
             return {user: action.payload}
@@ -17,4 +16,4 @@ export const userReducer = (state = currentUser, action) => {
     }
 }
 
-export const getCurrentUserAction = (payload) => ({type:GET_CURRENT_USER, payload})
+export const setCurrentUserAction = (payload) => ({type:GET_CURRENT_USER, payload})
