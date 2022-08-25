@@ -1,7 +1,6 @@
 import React from 'react';
 import {useState} from "react";
 import {Button, TextField} from "@mui/material";
-import Navbar from "./navbar";
 
 const TodoItemComponent = ({item, onDelete, onEdit}) => {
     const [isEditMode, setIsEditMode] = useState(false)

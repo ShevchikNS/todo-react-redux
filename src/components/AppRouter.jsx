@@ -1,10 +1,7 @@
 import React from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {publicRoutes, privateRoutes} from "../router";
-import SignIn from "./SignIn";
-import InputTodoComponent from "./inputTodo-component";
-import {useDispatch, useSelector} from "react-redux";
-import {changeAuthAction} from "../store/authReducer";
+import {useSelector} from "react-redux";
 
 const AppRouter = () => {
     const isAuth = useSelector(state => state.auth.authState)
