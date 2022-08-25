@@ -12,9 +12,10 @@ import Navbar from "./navbar";
 const InputTodoComponent = () => {
 
     const [newTodo, setNewTodo] = useState('')
+    const currentUser = useSelector(state => state.currentUser.user)
     const dispatch = useDispatch()
-    const todoItems = useSelector(state => state.todos.todos)
-
+    const todoItems = useSelector(state => state.todos.todos).filter(todo => todo.userId === currentUser.userId)
+    console.log(todoItems)
     const changeTodoName = (e) => {
         setNewTodo(e.target.value)
     }
@@ -26,7 +27,8 @@ const InputTodoComponent = () => {
     const addTodoItem =  async (newTodo) => {
         const todo = {
             id: Date.now(),
-            text: newTodo
+            text: newTodo,
+            userId: currentUser.userId
         }
 
         // await addDoc(collection(db, "todos"), todo)
@@ -52,7 +54,7 @@ const InputTodoComponent = () => {
             <Navbar/>
             <div className="TodoHeader">
                 <TextField
-                    id="outlined-basic"
+                    id="layer2"
                     label="Todo"
                     variant="outlined"
                     value={newTodo}
