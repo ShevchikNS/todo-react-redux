@@ -7,19 +7,19 @@ const AppRouter = () => {
     const isAuth = useSelector(state => state.auth.authState)
     return (
         isAuth ?
-                <Routes>
-                    {privateRoutes.map(route =>
-                        <Route path={route.path} element = {route.element} exact={route.exact}/>
-                    )}
-                    <Route path="*" element={ <Navigate to="/" /> } />
-                </Routes>
-                :
-                <Routes>
-                    {publicRoutes.map(route =>
-                        <Route path={route.path} element = {route.element} exact={route.exact}/>
-                    )}
-                    <Route path="*" element={ <Navigate to="/signin" /> } />
-                </Routes>
+            <Routes key= {Date.now()}>
+                {privateRoutes.map(route =>
+                    <Route key= {Date.now()} path={route.path} element={route.element} exact={route.exact}/>
+                )}
+                <Route key= {Date.now()} path="*" element={<Navigate to="/"/>}/>
+            </Routes>
+            :
+            <Routes key= {Date.now()}>
+                {publicRoutes.map(route =>
+                    <Route key= {Date.now()} path={route.path} element={route.element} exact={route.exact}/>
+                )}
+                <Route key= {Date.now()} path="*" element={<Navigate to="/signin"/>}/>
+            </Routes>
 
     );
 };
