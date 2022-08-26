@@ -3,14 +3,14 @@ import "./todo.css"
 import {useDispatch, useSelector} from "react-redux";
 import {addTodoAction, editTodoAction, removeTodoAction} from "../store/todoReducer";
 import {Button, TextField} from "@mui/material";
-import TodoItem from "./todoItem-component";
+import TodoItem from "./TodoItem-component";
 import {store} from "../store";
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 // import {collection, addDoc} from "firebase/firestore"
 // import {db} from "../firebase";
 
 const InputTodoComponent = () => {
-
     const [newTodo, setNewTodo] = useState('')
     const currentUser = useSelector(state => state.currentUser.user)
     const dispatch = useDispatch()
