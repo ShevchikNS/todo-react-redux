@@ -1,6 +1,6 @@
-import InputTodoComponent from "../components/inputTodo-component";
+import InputTodoComponent from "../components/InputTodo-component";
 import SignIn from "../components/SignIn";
-import SignUp from "../components/signUp";
+import SignUp from "../components/SignUp";
 
 
 const privateRoutes = [
