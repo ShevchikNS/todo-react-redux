@@ -5,13 +5,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import {useDispatch, useSelector} from "react-redux";
-import {Menu} from "@mui/icons-material";
 import {ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper} from "@mui/material";
-import Fade from '@mui/material/Fade';
 import {changeAuthAction} from "../store/authReducer";
 import {useNavigate} from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 
 export default function Navbar() {
@@ -33,9 +31,12 @@ export default function Navbar() {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
+
+    };
+    const handleLogout = () => {
         checkAuth()
         setOpen(false);
-    };
+    }
 
     function handleListKeyDown(event) {
         if (event.key === 'Tab') {
@@ -66,7 +67,8 @@ export default function Navbar() {
                         aria-label="menu"
                         sx={{mr: 2}}
                     >
-                        <MenuIcon/>
+                        <Sidebar/>
+                        {/*<MenuIcon/>*/}
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         TODO
@@ -108,7 +110,7 @@ export default function Navbar() {
                                         >
                                             <MenuItem onClick={handleClose}>Profile</MenuItem>
                                             <MenuItem onClick={handleClose}>My account</MenuItem>
-                                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>
