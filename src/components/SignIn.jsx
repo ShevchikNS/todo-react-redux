@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -18,7 +16,6 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import AlertComponent from "./Alert-component";
 import {setCurrentUserAction} from "../store/userReducer";
-// import {BrowserRouter as Router, Link} from 'react-router-dom';
 
 
 const theme = createTheme();
@@ -97,10 +94,6 @@ export default function SignIn() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
                             />
                             <Button
                                 type="submit"
