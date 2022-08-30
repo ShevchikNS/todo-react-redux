@@ -6,7 +6,6 @@ import {Button, TextField} from "@mui/material";
 import TodoItem from "./TodoItem-component";
 import {store} from "../store";
 import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
 // import {collection, addDoc} from "firebase/firestore"
 // import {db} from "../firebase";
 
