@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./todo.css"
 import {useDispatch, useSelector} from "react-redux";
 import {addTodoAction, editTodoAction, removeTodoAction} from "../store/todoReducer";
@@ -6,30 +6,50 @@ import {Button, TextField} from "@mui/material";
 import TodoItem from "./TodoItem-component";
 import {store} from "../store";
 import Navbar from "./Navbar";
+import {logDOM} from "@testing-library/react";
 // import {collection, addDoc} from "firebase/firestore"
 // import {db} from "../firebase";
 
 const InputTodoComponent = () => {
+    const [todoList, setTodoList] = useState("")
     const [newTodo, setNewTodo] = useState('')
     const currentUser = useSelector(state => state.currentUser.user)
+    const currentFolder = useSelector(state => state.currentFolder.folder)
     const dispatch = useDispatch()
     const todoItems = useSelector(state => state.todos.todos).filter(todo => todo.userId === currentUser.userId)
-    console.log(todoItems)
+    // setTodoList(todoItems)
     const changeTodoName = (e) => {
         setNewTodo(e.target.value)
     }
-    const handleKeyPressAdd =  async (event) => {
+    useEffect(() => {
+        console.log()
+       //TODO create working folders for todo
+        if (currentFolder.folderName === "ALL") {
+            setTodoList(todoItems)
+            console.log("____________________")
+            console.log(todoList)
+            console.log("____________________")
+        } else {
+            console.log("++++++++++++++++++++++")
+            let filteredItem = todoItems.filter(todo => todo.folderId === currentFolder.folderId)
+            setTodoList(filteredItem)
+            console.log(todoList)
+            console.log("++++++++++++++++++++++")
+
+        }
+    }, [currentFolder])
+    const handleKeyPressAdd = async (event) => {
         if (event.key === 'Enter') {
             await addTodoItem(newTodo)
         }
     }
-    const addTodoItem =  async (newTodo) => {
+    const addTodoItem = async (newTodo) => {
         const todo = {
             id: Date.now(),
             text: newTodo,
-            userId: currentUser.userId
+            userId: currentUser.userId,
+            folderId: currentFolder.folderId
         }
-
         // await addDoc(collection(db, "todos"), todo)
         dispatch(addTodoAction(todo))
         setNewTodo('')
@@ -41,7 +61,7 @@ const InputTodoComponent = () => {
     }
     const EditTodo = (indexToEdit, editTodo) => {
         dispatch(editTodoAction(indexToEdit, editTodo))
-       saveInLocalStorage()
+        saveInLocalStorage()
     }
     const removeTodoItem = (todoItem) => {
         dispatch(removeTodoAction(todoItem.id))
@@ -65,7 +85,9 @@ const InputTodoComponent = () => {
                 <Button
                     variant="outlined"
                     id="AddButton"
-                    onClick={async () => { await addTodoItem(newTodo)}}>
+                    onClick={async () => {
+                        await addTodoItem(newTodo)
+                    }}>
                     ADD
                 </Button>
             </div>

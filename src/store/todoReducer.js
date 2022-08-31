@@ -15,11 +15,12 @@ export const todoReducer = (state = defaultState, action) => {
         case REMOVE_TODO:
             return {...state, todos: state.todos.filter((todo)=> todo.id !== action.payload)}
         case EDIT_TODO:
-            return {...state, todos: state.todos.map((todo, index,) => {
+            return {...state, todos: state.todos.map((todo, index) => {
                     if(index === action.payload) {
                         return  {
                             id: todo.id,
                             text: action.newTodo,
+                            userId: todo.userId,
                         }
                     }
                     return todo

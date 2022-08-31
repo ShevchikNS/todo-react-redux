@@ -12,10 +12,11 @@ import {useDispatch} from "react-redux";
 import {store} from "../store";
 import {addFolderAction} from "../store/folderReducer";
 
+
 export default function FormDialog() {
     const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false);
-    const [folder, setFolder] = useState()
+    const [folder, setFolder] = useState("")
     // store.getState().currentUser.user.userId
     const changeFolderName = (e) => {
         setFolder(e.target.value)
@@ -30,11 +31,11 @@ export default function FormDialog() {
     const handleAddFolder = async (folder) => {
         const newFolder = {
             userId: store.getState().currentUser.user.userId,
-            id: Date.now(),
+            folderId: Date.now(),
             folderName: folder
         }
-        // dispatch(addFolderAction(newFolder))
-        console.log(dispatch(addFolderAction(newFolder)))
+        // privateRoutes.push({path:`/${folder}`, element: <InputTodoComponent/>, exact: true})
+        dispatch(addFolderAction(newFolder))
         await localStorage.setItem('todoFolder', JSON.stringify(store.getState().folder.folder))
         setFolder('')
         handleClose()
@@ -70,7 +71,7 @@ export default function FormDialog() {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={() => handleClose()}>Cancel</Button>
                     <Button onClick={async () => handleAddFolder(folder)}>Add</Button>
                 </DialogActions>
             </Dialog>

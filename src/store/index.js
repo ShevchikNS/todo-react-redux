@@ -5,11 +5,13 @@ import thunk from "redux-thunk";
 import {authReducer} from "./authReducer";
 import {userReducer} from "./userReducer";
 import {folderReducer} from "./folderReducer";
+import {currentFolderReducer} from "./currentFolderReducer";
 
 const rootReducer = combineReducers({
     todos: todoReducer,
     auth: authReducer,
     currentUser: userReducer,
-    folder: folderReducer
+    folder: folderReducer,
+    currentFolder: currentFolderReducer
 })
 export const store  = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
