@@ -16,6 +16,8 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import AlertComponent from "./Alert-component";
 import {setCurrentUserAction} from "../store/userReducer";
+import {collection, getDocs} from "firebase/firestore";
+import {db} from "../firebase";
 
 
 const theme = createTheme();
@@ -31,13 +33,22 @@ export default function SignIn() {
         let path = `/`;
         navigate(path);
     }
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data =  new FormData(event.currentTarget);
         const authUser = {
             email: data.get('email'),
             password: data.get('password'),
         }
+        let user = ""
+        const querySnapshot = await getDocs(collection(db, "users"));
+        querySnapshot.forEach((doc) => {
+                if (`${doc.data().email}` === `${authUser.email}` && `${doc.data().password}` === `${authUser.password}`) {
+                    user = doc.data()
+                }
+            }
+        );
+        console.log(user)
         const usersFromStorage = JSON.parse(localStorage.getItem('UserList'))
         if (usersFromStorage !== null)
         {
@@ -45,7 +56,7 @@ export default function SignIn() {
             if (currentUser.length === 0){
                 setOpen(true)
             } else {
-                dispatch(setCurrentUserAction(currentUser[0]))
+                dispatch(setCurrentUserAction(user))
                 checkAuth()
             }
         } else {

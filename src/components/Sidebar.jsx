@@ -13,12 +13,15 @@ import LongMenu from "./MenuForFolders";
 import {removeFolderAction} from "../store/folderReducer";
 import {store} from "../store";
 import {setCurrentFolderAction} from "../store/currentFolderReducer";
+import {filterTodo, updateTodoAction} from "../store/todoReducer";
+
 
 export default function Sidebar() {
     // const navigate = useNavigate();
     const dispatch = useDispatch()
     const userFolder = useSelector(state => state.folder.folder)
     const currentUser = useSelector(state => state.currentUser.user)
+    // const todoItems = useSelector(state => state.todos.todos).filter(todo => todo.userId === currentUser.userId)
 
     // const checkAuth = (folderName) => {
     //     dispatch(changeAuthAction(true))
@@ -38,14 +41,20 @@ export default function Sidebar() {
         }
         setState({...state, [anchor]: open});
     };
-    const removeFolderItem =async (folderForDelete) => {
-        dispatch(removeFolderAction(folderForDelete.id))
+    const removeFolderItem = async (folderForDelete) => {
+        console.log(folderForDelete)
+        dispatch(removeFolderAction(folderForDelete.folderId))
         await localStorage.setItem('todoFolder', JSON.stringify(store.getState().folder.folder))
 
     }
-   const getCurrentFolder = (folder) => {
+    const getCurrentFolder = (folder) => {
+        // const AllTodo = JSON.parse(localStorage.getItem('todoItems')).filter(todo => todo.user === currentUser.userId)
         dispatch(setCurrentFolderAction(folder))
-   }
+        dispatch(updateTodoAction(JSON.parse(localStorage.getItem('todoItems')).filter(todo => todo.userId === currentUser.userId)))
+        const currentFolder = store.getState().currentFolder.folder
+        dispatch(filterTodo(currentFolder.folderId))
+        console.log(currentFolder)
+    }
     const list = (anchor) => (
         <Box
             sx={{width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250}}
@@ -70,7 +79,7 @@ export default function Sidebar() {
                                 </ListItemButton>
                                 <LongMenu onDelete={() => removeFolderItem(folder)}/>
                             </ListItem>
-                        )) : console.log("NEED FIX")
+                        )) : console.log()
                 }
 
             </List>

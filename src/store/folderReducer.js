@@ -12,7 +12,7 @@ export const folderReducer = (state = defaultState, action) => {
         case ADD_FOLDER:
             return {...state, folder: [...state.folder, action.payload]}
         case REMOVE_FOLDER:
-            return {...state, folder: state.folder.filter((folderItem)=> folderItem.id !== action.payload)}
+            return {...state, folder: state.folder.filter((folderItem)=> folderItem.folderId !== action.payload)}
         default:
             return state
     }

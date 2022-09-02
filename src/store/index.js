@@ -8,9 +8,9 @@ import {folderReducer} from "./folderReducer";
 import {currentFolderReducer} from "./currentFolderReducer";
 
 const rootReducer = combineReducers({
-    todos: todoReducer,
     auth: authReducer,
     currentUser: userReducer,
+    todos: todoReducer,
     folder: folderReducer,
     currentFolder: currentFolderReducer
 })

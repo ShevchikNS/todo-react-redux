@@ -15,6 +15,8 @@ import {setCurrentUserAction} from "../store/userReducer";
 import {changeAuthAction} from "../store/authReducer";
 import {useNavigate} from "react-router-dom";
 import AlertComponent from "./Alert-component";
+import {collection, addDoc, getDocs} from "firebase/firestore"
+import {db} from "../firebase";
 
 const theme = createTheme();
 
@@ -31,7 +33,6 @@ export default function SignUp() {
     const handleSubmit = async (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget);
-        console.log(data)
         let newUser = {
             userId: Date.now(),
             firstName: data.get('firstName'),
@@ -39,9 +40,22 @@ export default function SignUp() {
             email: data.get('email'),
             password: data.get('password'),
         }
+
         if (newUser.firstName.length === 0 || newUser.lastName.length === 0 || newUser.email.length === 0 || newUser.password.length === 0) {
             setOpen(true)
         } else {
+            let authUser = true
+            const querySnapshot = await getDocs(collection(db, "users"));
+            querySnapshot.forEach((doc) => {
+                    if (`${doc.data().email}` === `${newUser.email}`) {
+                        authUser = false
+                    }
+                }
+            );
+            if(authUser === true)
+                await addDoc(collection(db, "users"), newUser)
+            else
+                console.log("Данный пользователь существует")
             let parsedString;
             if (localStorage.getItem('UserList') !== null) {
                 parsedString = JSON.parse(localStorage.getItem('UserList'))
