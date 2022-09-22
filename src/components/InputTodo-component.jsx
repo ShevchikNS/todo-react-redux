@@ -1,31 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import "./todo.css"
 import {useDispatch, useSelector} from "react-redux";
-import {addTodoAction, editTodoAction, removeTodoAction} from "../store/todoReducer";
+import {addTodoAction, editTodoAction, fetchTodos, removeTodoAction, } from "../store/todoReducer";
 import {Button, TextField} from "@mui/material";
 import TodoItem from "./TodoItem-component";
 import Navbar from "./Navbar";
-import {collection, addDoc, deleteDoc, doc,} from "firebase/firestore"
+import {collection, addDoc, deleteDoc, doc, getDocs} from "firebase/firestore"
 import {db} from "../firebase";
-import {query, where, getDocs} from "firebase/firestore";
-import {logDOM} from "@testing-library/react";
-import {store} from "../store";
+
 
 const InputTodoComponent = () => {
+        const dispatch = useDispatch()
         const [newTodo, setNewTodo] = useState('')
         if (localStorage.getItem("todoItems") === null || localStorage.getItem("todoItems") === undefined)
             localStorage.setItem('todoItems', '[]');
-        const todoList = JSON.parse(localStorage.getItem('todoItems'))
-
+        const todoList = useSelector(state => state.todos.todos)
         const currentUser = useSelector(state => state.currentUser.user)
         const currentFolder = useSelector(state => state.currentFolder.folder)
-        const dispatch = useDispatch()
-        const todoItems = useSelector(state => state.todos.todos).filter(todo => todo.userId === currentUser.userId)
+
+
 
         const changeTodoName = (e) => {
             setNewTodo(e.target.value)
         }
-
 
         const handleKeyPressAdd = async (event) => {
             if (event.key === 'Enter') {
@@ -39,12 +36,10 @@ const InputTodoComponent = () => {
                 userId: currentUser.userId,
                 folderId: currentFolder.folderId
             }
-
             await addDoc(collection(db, "todos"), todo)
-            todoList.push(todo)
+            //todoList.push(todo)
             dispatch(addTodoAction(todo))
             setNewTodo('')
-            await saveInLocalStorage(todoList)
         }
 
         const saveInLocalStorage = (todo) => {
@@ -53,7 +48,8 @@ const InputTodoComponent = () => {
             else
                 localStorage.setItem('todoItems', JSON.stringify(todo))
         }
-        const EditTodo = (indexToEdit, editTodo) => {
+        const EditTodo =  async (indexToEdit, editTodo) => {
+
 
             dispatch(editTodoAction(indexToEdit, editTodo))
             saveInLocalStorage(todoList.map((todo, index) => {
@@ -67,7 +63,10 @@ const InputTodoComponent = () => {
                 }
                 return todo
             }))
+
+
         }
+
 
         const removeTodoItem = async (todoItem) => {
             let currentTodo = "";
@@ -107,10 +106,10 @@ const InputTodoComponent = () => {
                     </Button>
                 </div>
                 {
-                    todoItems.length > 0 ?
+                    todoList.length > 0 ?
                         <div>
                             {
-                                todoItems.map((todoItem, index) =>
+                                todoList.map((todoItem, index) =>
                                     <TodoItem
                                         onDelete={() => removeTodoItem(todoItem)}
                                         onEdit={(editTodo) => {
