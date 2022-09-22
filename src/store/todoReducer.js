@@ -1,10 +1,6 @@
 import {collection, doc, getDocs, updateDoc} from "firebase/firestore";
 import {db} from "../firebase";
 
-
-
-if (localStorage.getItem("todoItems") === null || localStorage.getItem("todoItems") === undefined)
-    localStorage.setItem('todoItems', '[]');
 const defaultState = {
     todos: []
 }
@@ -19,7 +15,7 @@ export const todoReducer = (state = defaultState, action) => {
         case ADD_TODO:
             return {...state, todos: [...state.todos, action.payload]}
         case REMOVE_TODO:
-            return {...state, todos: state.todos.filter((todo) => todo.id !== action.payload)}
+            return {...state, todos: state.todos.filter((todo) => todo.todoId !== action.payload)}
         case EDIT_TODO:
             return {
                 ...state, todos: state.todos.map(async (todo, index) => {

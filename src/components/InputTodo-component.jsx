@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import "./todo.css"
 import {useDispatch, useSelector} from "react-redux";
-import {addTodoAction, editTodoAction, fetchTodos, removeTodoAction, } from "../store/todoReducer";
+import {addTodoAction, editTodoAction, fetchTodos, removeTodoAction,} from "../store/todoReducer";
 import {Button, TextField} from "@mui/material";
 import TodoItem from "./TodoItem-component";
 import Navbar from "./Navbar";
@@ -12,13 +12,9 @@ import {db} from "../firebase";
 const InputTodoComponent = () => {
         const dispatch = useDispatch()
         const [newTodo, setNewTodo] = useState('')
-        if (localStorage.getItem("todoItems") === null || localStorage.getItem("todoItems") === undefined)
-            localStorage.setItem('todoItems', '[]');
         const todoList = useSelector(state => state.todos.todos)
         const currentUser = useSelector(state => state.currentUser.user)
         const currentFolder = useSelector(state => state.currentFolder.folder)
-
-
 
         const changeTodoName = (e) => {
             setNewTodo(e.target.value)
@@ -37,38 +33,27 @@ const InputTodoComponent = () => {
                 folderId: currentFolder.folderId
             }
             await addDoc(collection(db, "todos"), todo)
-            //todoList.push(todo)
             dispatch(addTodoAction(todo))
             setNewTodo('')
         }
 
-        const saveInLocalStorage = (todo) => {
-            if (localStorage.getItem("todoItems") == null)
-                localStorage.setItem('todoItems', '[]');
-            else
-                localStorage.setItem('todoItems', JSON.stringify(todo))
-        }
-        const EditTodo =  async (indexToEdit, editTodo) => {
-
-
+        const EditTodo = async (indexToEdit, editTodo) => {
             dispatch(editTodoAction(indexToEdit, editTodo))
-            saveInLocalStorage(todoList.map((todo, index) => {
+            todoList.map((todo, index) => {
                 if (index === indexToEdit) {
                     return {
-                        id: `${todo.id}`,
+                        id: `${todo.todoId}`,
                         text: editTodo,
                         userId: todo.userId,
                         folderId: todo.folderId
                     }
                 }
                 return todo
-            }))
-
-
+            })
         }
 
-
         const removeTodoItem = async (todoItem) => {
+            dispatch(removeTodoAction(todoItem.todoId))
             let currentTodo = "";
             const querySnapshot = await getDocs(collection(db, "todos"));
             querySnapshot.forEach((doc) => {
@@ -78,8 +63,6 @@ const InputTodoComponent = () => {
                 }
             );
             await deleteDoc(doc(db, 'todos', `${currentTodo}`))
-            dispatch(removeTodoAction(todoItem.id))
-            saveInLocalStorage(todoList.filter(todo => todo.id !== todoItem.id))
         }
 
         return (
