@@ -13,7 +13,7 @@ import LongMenu from "./MenuForFolders";
 import {removeFolderAction} from "../store/folderReducer";
 import {store} from "../store";
 import {setCurrentFolderAction} from "../store/currentFolderReducer";
-import {filterTodo, updateTodoAction} from "../store/todoReducer";
+import {useState} from "react";
 
 
 export default function Sidebar() {
@@ -21,14 +21,8 @@ export default function Sidebar() {
     const dispatch = useDispatch()
     const userFolder = useSelector(state => state.folder.folder)
     const currentUser = useSelector(state => state.currentUser.user)
-    // const todoItems = useSelector(state => state.todos.todos).filter(todo => todo.userId === currentUser.userId)
 
-    // const checkAuth = (folderName) => {
-    //     dispatch(changeAuthAction(true))
-    //     let path = `/${folderName}`;
-    //     navigate(path);
-    // }
-    const [state, setState] = React.useState({
+    const [state, setState] = useState({
         left: false
     });
     const toggleDrawer = (anchor, open) => (event) => {
@@ -47,13 +41,8 @@ export default function Sidebar() {
         await localStorage.setItem('todoFolder', JSON.stringify(store.getState().folder.folder))
 
     }
-    const getCurrentFolder = (folder) => {
-        // const AllTodo = JSON.parse(localStorage.getItem('todoItems')).filter(todo => todo.user === currentUser.userId)
+    const getCurrentFolder = async (folder) => {
         dispatch(setCurrentFolderAction(folder))
-        dispatch(updateTodoAction(JSON.parse(localStorage.getItem('todoItems')).filter(todo => todo.userId === currentUser.userId)))
-        const currentFolder = store.getState().currentFolder.folder
-        dispatch(filterTodo(currentFolder.folderId))
-        console.log(currentFolder)
     }
     const list = (anchor) => (
         <Box

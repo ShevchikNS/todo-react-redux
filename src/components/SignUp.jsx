@@ -44,30 +44,21 @@ export default function SignUp() {
         if (newUser.firstName.length === 0 || newUser.lastName.length === 0 || newUser.email.length === 0 || newUser.password.length === 0) {
             setOpen(true)
         } else {
-            let authUser = true
+            let authUser = false
             const querySnapshot = await getDocs(collection(db, "users"));
             querySnapshot.forEach((doc) => {
                     if (`${doc.data().email}` === `${newUser.email}`) {
                         authUser = false
-                    }
+                        setOpen(true)
+                    } else authUser = true
                 }
             );
-            if(authUser === true)
+            console.log(authUser)
+            if (authUser === true) {
                 await addDoc(collection(db, "users"), newUser)
-            else
-                console.log("Данный пользователь существует")
-            let parsedString;
-            if (localStorage.getItem('UserList') !== null) {
-                parsedString = JSON.parse(localStorage.getItem('UserList'))
-                // newUser.id = parsedString.length
-                parsedString.push(newUser)
-                localStorage.setItem('UserList', JSON.stringify(parsedString))
-            } else {
-                newUser.id = 0;
-                localStorage.setItem('UserList', JSON.stringify([newUser]))
+                await checkAuth()
+                dispatch(setCurrentUserAction(newUser))
             }
-            dispatch(setCurrentUserAction(newUser))
-            await checkAuth()
         }
     };
 
@@ -89,7 +80,8 @@ export default function SignUp() {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <AlertComponent open ={open} text = "Please fill in the fields" setOpen={() => setOpen(false)} />
+                    <AlertComponent open={open} text="Please fill in the fields or use new email"
+                                    setOpen={() => setOpen(false)}/>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>

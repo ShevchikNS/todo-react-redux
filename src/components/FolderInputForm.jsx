@@ -12,6 +12,9 @@ import {useDispatch} from "react-redux";
 import {store} from "../store";
 import {addFolderAction} from "../store/folderReducer";
 
+//
+//  TODO    change folders for todos: localStorage => firebase
+//
 
 export default function FormDialog() {
     const dispatch = useDispatch()
@@ -34,7 +37,6 @@ export default function FormDialog() {
             folderId: Date.now(),
             folderName: folder
         }
-        // privateRoutes.push({path:`/${folder}`, element: <InputTodoComponent/>, exact: true})
         dispatch(addFolderAction(newFolder))
         await localStorage.setItem('todoFolder', JSON.stringify(store.getState().folder.folder))
         setFolder('')

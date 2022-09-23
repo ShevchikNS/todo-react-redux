@@ -12,6 +12,6 @@ const rootReducer = combineReducers({
     currentUser: userReducer,
     todos: todoReducer,
     folder: folderReducer,
-    currentFolder: currentFolderReducer
+    currentFolder: currentFolderReducer,
 })
 export const store  = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))

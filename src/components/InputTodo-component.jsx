@@ -1,13 +1,12 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import "./todo.css"
 import {useDispatch, useSelector} from "react-redux";
-import {addTodoAction, editTodoAction, fetchTodos, removeTodoAction,} from "../store/todoReducer";
+import {addTodoAction, editTodoAction, removeTodoAction,} from "../store/todoReducer";
 import {Button, TextField} from "@mui/material";
 import TodoItem from "./TodoItem-component";
 import Navbar from "./Navbar";
 import {collection, addDoc, deleteDoc, doc, getDocs} from "firebase/firestore"
 import {db} from "../firebase";
-
 
 const InputTodoComponent = () => {
         const dispatch = useDispatch()
@@ -38,18 +37,8 @@ const InputTodoComponent = () => {
         }
 
         const EditTodo = async (indexToEdit, editTodo) => {
+            console.log(editTodo + "!!!")
             dispatch(editTodoAction(indexToEdit, editTodo))
-            todoList.map((todo, index) => {
-                if (index === indexToEdit) {
-                    return {
-                        id: `${todo.todoId}`,
-                        text: editTodo,
-                        userId: todo.userId,
-                        folderId: todo.folderId
-                    }
-                }
-                return todo
-            })
         }
 
         const removeTodoItem = async (todoItem) => {
@@ -89,23 +78,44 @@ const InputTodoComponent = () => {
                     </Button>
                 </div>
                 {
-                    todoList.length > 0 ?
-                        <div>
-                            {
-                                todoList.map((todoItem, index) =>
-                                    <TodoItem
-                                        onDelete={() => removeTodoItem(todoItem)}
-                                        onEdit={(editTodo) => {
-                                            EditTodo(index, editTodo)
-                                        }}
-                                        item={todoItem.text}
-                                        key={index}>
-                                    </TodoItem>
-                                )
-                            }
-                        </div>
-                        : console.log()
+                    currentFolder.folderId === "1" ?
+                        todoList.length > 0 ?
+                            <div>
+                                {
+                                    todoList.map((todoItem, index) =>
 
+                                        <TodoItem
+                                            onDelete={() => removeTodoItem(todoItem)}
+                                            onEdit={(editTodo) => {
+                                                EditTodo(index, editTodo)
+                                            }}
+                                            item={todoItem.text}
+                                            key={index}>
+                                        </TodoItem>
+                                    )
+                                }
+                            </div>
+                            : console.log()
+                        :
+                        todoList.length > 0 ?
+                            <div>
+                                {
+
+                                    todoList.map((todoItem, index) =>
+                                        todoItem.folderId === currentFolder.folderId ?
+                                            <TodoItem
+                                                onDelete={() => removeTodoItem(todoItem)}
+                                                onEdit={(editTodo) => {
+                                                    EditTodo(index, editTodo)
+                                                }}
+                                                item={todoItem.text}
+                                                key={index}>
+                                            </TodoItem> : console.log()
+
+                                    )
+                                }
+                            </div>
+                            : console.log()
                 }
             </div>
         );

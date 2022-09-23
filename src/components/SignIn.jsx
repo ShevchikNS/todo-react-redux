@@ -57,8 +57,7 @@ export default function SignIn() {
                     userTodos.push(doc.data())
             }
         );
-        //const usersFromStorage = JSON.parse(localStorage.getItem('UserList'))
-        if (user !== null) { // TODO Edit user authentication
+        if (user !== null) {
             if (user.length === 0) {
                 setOpen(true)
             } else {

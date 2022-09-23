@@ -1,5 +1,6 @@
-import {collection, doc, getDocs, updateDoc} from "firebase/firestore";
+import {doc, updateDoc} from "firebase/firestore";
 import {db} from "../firebase";
+import {editTodoFunc} from "../utils/getTodoIdFromFirebase";
 
 const defaultState = {
     todos: []
@@ -10,6 +11,7 @@ const EDIT_TODO = "EDIT_TODO"
 const FILTER_TODO_FOLDER = "FILTER_TODO_FOLDER"
 const UPDATE_TODO = "UPDATE_TODO"
 const FETCH_TODOS = "FETCH_TODOS"
+
 export const todoReducer = (state = defaultState, action) => {
     switch (action.type) {
         case ADD_TODO:
@@ -18,29 +20,21 @@ export const todoReducer = (state = defaultState, action) => {
             return {...state, todos: state.todos.filter((todo) => todo.todoId !== action.payload)}
         case EDIT_TODO:
             return {
-                ...state, todos: state.todos.map(async (todo, index) => {
+                ...state, todos: state.todos.map((todo, index) => {
                     if (index === action.payload) {
-                        let editId = ""
-                        const querySnapshot = await getDocs(collection(db, "todos"));
-                        querySnapshot.forEach((doc) => {
-                                if (`${doc.data().todoId}` === `${todo.todoId}`) {
-                                    editId = doc.id
-
-                                }
-                            }
-                        );
-                        const data = {
-                            text: action.newTodo
-                        };
-                        console.log(action.newTodo)
-                        const docRef = doc(db, "todos", editId)
-                        updateDoc(docRef, data)
-                            .then(docRef => {
-                                console.log("Value of an Existing Document Field has been updated");
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            })
+                        editTodoFunc(todo.todoId).then(r => {
+                            const data = {
+                                text: action.newTodo
+                            };
+                            const docRef = doc(db, "todos", r)
+                            updateDoc(docRef, data)
+                                .then(docRef => {
+                                    console.log("Value of an Existing Document Field has been updated");
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                })
+                        });
                         return {
                             todoId: todo.todoId,
                             text: action.newTodo,
