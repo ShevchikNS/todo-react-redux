@@ -14,6 +14,8 @@ import {removeFolderAction} from "../store/folderReducer";
 import {store} from "../store";
 import {setCurrentFolderAction} from "../store/currentFolderReducer";
 import {useState} from "react";
+import {collection, deleteDoc, doc, getDocs} from "firebase/firestore";
+import {db} from "../firebase";
 
 
 export default function Sidebar() {
@@ -36,10 +38,16 @@ export default function Sidebar() {
         setState({...state, [anchor]: open});
     };
     const removeFolderItem = async (folderForDelete) => {
-        console.log(folderForDelete)
+        let folderToDelete = ""
         dispatch(removeFolderAction(folderForDelete.folderId))
-        await localStorage.setItem('todoFolder', JSON.stringify(store.getState().folder.folder))
-
+        const querySnapshot = await getDocs(collection(db, "folders"));
+        querySnapshot.forEach((doc) => {
+                if (`${doc.data().folderId}` === `${folderForDelete.folderId}`) {
+                    folderToDelete = doc.id
+                }
+            }
+        );
+        await deleteDoc(doc(db, 'folders', `${folderToDelete}`))
     }
     const getCurrentFolder = async (folder) => {
         dispatch(setCurrentFolderAction(folder))
