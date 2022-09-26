@@ -80,7 +80,7 @@ const InputTodoComponent = () => {
                 {
                     currentFolder.folderId === "1" ?
                         todoList.length > 0 ?
-                            <div>
+                            <div className="allTodoList">
                                 {
                                     todoList.map((todoItem, index) =>
 
@@ -98,7 +98,7 @@ const InputTodoComponent = () => {
                             : console.log()
                         :
                         todoList.length > 0 ?
-                            <div>
+                            <div className= "allTodoList">
                                 {
 
                                     todoList.map((todoItem, index) =>

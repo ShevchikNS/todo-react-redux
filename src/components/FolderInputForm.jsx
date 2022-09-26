@@ -11,6 +11,8 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {store} from "../store";
 import {addFolderAction} from "../store/folderReducer";
+import {addDoc, collection} from "firebase/firestore";
+import {db} from "../firebase";
 
 //
 //  TODO    change folders for todos: localStorage => firebase
@@ -20,7 +22,7 @@ export default function FormDialog() {
     const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false);
     const [folder, setFolder] = useState("")
-    // store.getState().currentUser.user.userId
+
     const changeFolderName = (e) => {
         setFolder(e.target.value)
     }
@@ -38,7 +40,7 @@ export default function FormDialog() {
             folderName: folder
         }
         dispatch(addFolderAction(newFolder))
-        await localStorage.setItem('todoFolder', JSON.stringify(store.getState().folder.folder))
+        await addDoc(collection(db, "folders"), newFolder)
         setFolder('')
         handleClose()
     }

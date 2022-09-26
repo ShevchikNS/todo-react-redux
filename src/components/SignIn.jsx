@@ -19,6 +19,7 @@ import {setCurrentUserAction} from "../store/userReducer";
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "../firebase";
 import {fetchTodos} from "../store/todoReducer";
+import {fetchFoldersAction} from "../store/folderReducer";
 
 
 const theme = createTheme();
@@ -42,19 +43,26 @@ export default function SignIn() {
             password: data.get('password'),
         }
         let user = ""
-        let userTodos = [];
-        const querySnapshot = await getDocs(collection(db, "users"));
-        const querySnapshot1 = await getDocs(collection(db, "todos"));
+        let userTodos = []
+        let folders = []
+        const checkUser = await getDocs(collection(db, "users"))
+        const allTodos = await getDocs(collection(db, "todos"))
+        const allFolders = await getDocs(collection(db, "folders"))
 
-        querySnapshot.forEach((doc) => {
+        checkUser.forEach((doc) => {
                 if (`${doc.data().email}` === `${authUser.email}` && `${doc.data().password}` === `${authUser.password}`) {
                     user = doc.data()
                 }
             }
         );
-        querySnapshot1.forEach((doc) => {
+        allTodos.forEach((doc) => {
                 if (Number(user.userId) === Number(doc.data().userId))
                     userTodos.push(doc.data())
+            }
+        );
+        allFolders.forEach((doc) => {
+                if (Number(user.userId) === Number(doc.data().userId))
+                    folders.push(doc.data())
             }
         );
         if (user !== null) {
@@ -62,13 +70,13 @@ export default function SignIn() {
                 setOpen(true)
             } else {
                 dispatch(setCurrentUserAction(user))
+                dispatch(fetchFoldersAction(folders))
+                dispatch(fetchTodos(userTodos))
                 checkAuth()
             }
         } else {
             setOpen(false)
-
         }
-        dispatch(fetchTodos(userTodos))
     };
 
     return (

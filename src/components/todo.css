@@ -50,6 +50,18 @@ button#DeleteButton {
     display: flex;
     justify-content: center
 }
+@media screen and (min-width: 800px) {
+    .TodoHeader{
+        margin-left: auto;
+        margin-right: auto;
+        width: 54em;
+    }
+    .allTodoList{
+        margin-left: auto;
+        margin-right: auto;
+        width: 55em;
+    }
+}
 
 
 
